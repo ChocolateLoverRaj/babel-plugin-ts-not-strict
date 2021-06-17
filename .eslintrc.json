@@ -1,0 +1,12 @@
+{
+  "root": true,
+  "extends": "standard-with-typescript",
+  "ignorePatterns": [
+    "/dist",
+    "jest.config.js",
+    "**/__snapshots__"
+  ],
+  "parserOptions": {
+    "project": "./eslintTsconfig.json"
+  }
+}

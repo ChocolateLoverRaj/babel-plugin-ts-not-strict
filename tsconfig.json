@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": "./lib",
+    "esModuleInterop": true,
+    "strictNullChecks": true,
+    "importHelpers": true,
+    "module": "CommonJS",
+    "declaration": true,
+    "moduleResolution": "node",
+    "target": "ES2016"
+  },
+  "exclude": [
+    "**/__tests__"
+  ]
+}

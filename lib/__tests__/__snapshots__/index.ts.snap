@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`already includes undefined 1`] = `"export function fn(a: string | undefined): void;"`;
+
+exports[`already optional 1`] = `"export function fn(a?: string): void;"`;
+
+exports[`already parenthesized function parameter 1`] = `"export function fn(cb: (() => void) | undefined): void;"`;
+
+exports[`export default directly 1`] = `"export default ((a: string | undefined): string => a);"`;
+
+exports[`export default with const 1`] = `
+"const fn = (a: string | undefined): string => a;
+
+export default fn;"
+`;
+
+exports[`export named 1`] = `"export const fn = (a: string | undefined): string => a;"`;
+
+exports[`function 1`] = `
+"export default function add(a: number | undefined): number {
+  return a;
+}"
+`;
+
+exports[`function dts 1`] = `"export function a(n: number | undefined): number;"`;
+
+exports[`function parameter 1`] = `"export function fn(cb: (() => void) | undefined): void;"`;
+
+exports[`useControlledState 1`] = `"export function useControlledState<T>(value: T | undefined, defaultValue: T | undefined, onChange: ((value: T, ...args: any[]) => void) | undefined): [T, (value: T | ((prevState: T) => T), ...args: any[]) => void];"`;
