@@ -15,7 +15,9 @@ import {
   tsParenthesizedType,
   isTSParenthesizedType,
   isTSFunctionType,
-  isTSUndefinedKeyword
+  isTSUndefinedKeyword,
+  isTSInterfaceDeclaration,
+  isTSPropertySignature
 } from '@babel/types'
 import never from 'never'
 
@@ -47,6 +49,10 @@ const transformNode = (node: Node | null | undefined): void => {
         }
       }
     })
+  } else if (isTSInterfaceDeclaration(node)) {
+    node.body.body.forEach(node => {
+      if (isTSPropertySignature(node)) node.optional = true
+    })
   }
 }
 
@@ -70,9 +76,12 @@ const plugin: PluginObj = {
         }
       }
     },
-    ExportNamedDeclaration: path => {
-      if (isTSDeclareFunction(path.node.declaration)) {
-        transformNode(path.node.declaration)
+    ExportNamedDeclaration: ({ node: { declaration } }) => {
+      if (
+        isTSDeclareFunction(declaration) ||
+        isTSInterfaceDeclaration(declaration)
+      ) {
+        transformNode(declaration)
       }
     }
   }

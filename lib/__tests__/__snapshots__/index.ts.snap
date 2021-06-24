@@ -26,4 +26,10 @@ exports[`function dts 1`] = `"export function a(n: number | undefined): number;"
 
 exports[`function parameter 1`] = `"export function fn(cb: (() => void) | undefined): void;"`;
 
+exports[`interface 1`] = `
+"export interface Person {
+  name?: string;
+}"
+`;
+
 exports[`useControlledState 1`] = `"export function useControlledState<T>(value: T | undefined, defaultValue: T | undefined, onChange: ((value: T, ...args: any[]) => void) | undefined): [T, (value: T | ((prevState: T) => T), ...args: any[]) => void];"`;

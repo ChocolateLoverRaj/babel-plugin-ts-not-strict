@@ -76,3 +76,9 @@ test('already optional', () => {
   export function fn(a?: string): void;
   `)
 })
+
+test('interface', () => transformAndMatchSnapshot(`
+export interface Person {
+  name: string
+}
+`))

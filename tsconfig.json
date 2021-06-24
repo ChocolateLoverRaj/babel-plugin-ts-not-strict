@@ -11,6 +11,7 @@
     "target": "ES2016"
   },
   "exclude": [
-    "**/__tests__"
+    "**/__tests__",
+    "./dist"
   ]
 }
