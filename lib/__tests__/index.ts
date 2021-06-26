@@ -82,3 +82,23 @@ export interface Person {
   name: string
 }
 `))
+
+test('already optional interface', () => transformAndMatchSnapshot(`
+export interface Person {
+  name?: string
+}
+`))
+
+test('interface param', () => transformAndMatchSnapshot(`
+interface Person {
+  name: string
+}
+export function fn(a: Person): void;
+`))
+
+test('interface union param', () => transformAndMatchSnapshot(`
+interface Person {
+  name: string
+}
+export function fn(a: Person | string): void;
+`))

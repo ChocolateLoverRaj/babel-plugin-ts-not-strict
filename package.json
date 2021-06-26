@@ -39,8 +39,8 @@
     "url": "https://github.com/ChocolateLoverRaj"
   },
   "files": [
-    "dist/index.js",
-    "dist/index.d.ts",
+    "dist/**.js",
+    "dist/**.d.ts",
     "LICENSE",
     "README.md"
   ]
