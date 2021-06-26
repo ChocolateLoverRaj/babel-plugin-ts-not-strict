@@ -17,11 +17,21 @@ import {
   isTSFunctionType,
   isTSUndefinedKeyword,
   isTSInterfaceDeclaration,
-  isTSPropertySignature
+  isTSPropertySignature,
+  isTSTypeReference
 } from '@babel/types'
+import { NodePath } from '@babel/traverse'
 import never from 'never'
+import findInterface from './findInterface'
 
-const transformNode = (node: Node | null | undefined): void => {
+const transformInterface = (path: NodePath, node: Node): void => {
+  if (isTSTypeReference(node) && isIdentifier(node.typeName)) {
+    const { typeName: { name } } = node
+    console.log(findInterface(path, name))
+  }
+}
+
+const transformNode = (path: NodePath, node: Node | null | undefined): void => {
   if (
     isArrowFunctionExpression(node) ||
     isFunctionDeclaration(node) ||
@@ -37,7 +47,9 @@ const transformNode = (node: Node | null | undefined): void => {
           if (!typeAnnotation.typeAnnotation.types.some(type => isTSUndefinedKeyword(type))) {
             typeAnnotation.typeAnnotation.types.push(tSUndefinedKeyword())
           }
+          typeAnnotation.typeAnnotation.types.forEach(type => transformInterface(path, type))
         } else {
+          transformInterface(path, typeAnnotation.typeAnnotation)
           typeAnnotation.typeAnnotation = tsUnionType([
             isTSFunctionType(typeAnnotation.typeAnnotation)
               ? isTSParenthesizedType(typeAnnotation.typeAnnotation)
@@ -63,25 +75,25 @@ const plugin: PluginObj = {
         const { name } = path.node.declaration
         const { path: { node } } = path.scope.getBinding(name) ?? never('No binding')
         if (isVariableDeclarator(node)) {
-          transformNode(node.init)
+          transformNode(path, node.init)
         }
       } else {
-        transformNode(path.node.declaration)
+        transformNode(path, path.node.declaration)
       }
     },
     ExportDeclaration: path => {
       if (isExportNamedDeclaration(path.node)) {
         if (isVariableDeclaration(path.node.declaration)) {
-          transformNode(path.node.declaration.declarations[0].init)
+          transformNode(path, path.node.declaration.declarations[0].init)
         }
       }
     },
-    ExportNamedDeclaration: ({ node: { declaration } }) => {
+    ExportNamedDeclaration: path => {
       if (
-        isTSDeclareFunction(declaration) ||
-        isTSInterfaceDeclaration(declaration)
+        isTSDeclareFunction(path.node.declaration) ||
+        isTSInterfaceDeclaration(path.node.declaration)
       ) {
-        transformNode(declaration)
+        transformNode(path, path.node.declaration)
       }
     }
   }
