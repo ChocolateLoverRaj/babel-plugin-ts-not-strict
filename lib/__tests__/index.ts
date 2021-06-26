@@ -2,83 +2,71 @@ import plugin from '../'
 import { transformSync } from '@babel/core'
 import pluginSyntaxTypescript from '@babel/plugin-syntax-typescript'
 import never from 'never'
+import test, { Macro } from 'ava'
 
-const transformAndMatchSnapshot = (input: string): void => {
+const macro: Macro<[string]> = (t, input): void => {
   const { code } = transformSync(input, {
     plugins: [pluginSyntaxTypescript, plugin]
   }) ?? never('No result')
-  expect(code).toMatchSnapshot()
+  t.snapshot(code)
 }
 
 const arrowFn = '(a: string): string => a;'
 
-test('export default with const', () => {
-  transformAndMatchSnapshot(`
-  const fn = ${arrowFn}
+/* test('export default with const', macro, `
+const fn = ${arrowFn}
 
-  export default fn
-  `)
-})
+export default fn
+`)
 
-test('export default directly', () => {
-  transformAndMatchSnapshot(`
-  export default ${arrowFn}
-  `)
-})
+test('export default directly', macro, `
+export default ${arrowFn}
+`)
 
-test('export named', () => {
-  transformAndMatchSnapshot(`
-  export const fn = ${arrowFn}
-  `)
-})
+test('export named', macro, `
+export const fn = ${arrowFn}
+`)
 
-test('function', () => {
-  transformAndMatchSnapshot(`
-  export default function add(a: number): number {
-    return a
-  }
-  `)
-})
+test('function', macro, `
+export default function add(a: number): number {
+  return a
+}
+`)
 
-test('function dts', () => {
-  transformAndMatchSnapshot(`
-  export function a(n: number): number;
-  `)
-})
+test('function dts', macro, `
+export function a(n: number): number;
+`)
 
-test('useControlledState', () => {
-  transformAndMatchSnapshot(`
-  export function useControlledState<T>(value: T, defaultValue: T, onChange: ` + `
-  (value: T, ...args: any[]) => void): [T, (value: T | ((prevState: T) => T), ...args: any[]) => void];
-  `)
-})
+test('useControlledState', macro, `
+export function useControlledState<T>(value: T, defaultValue: T, onChange: ` + `
+(value: T, ...args: any[]) => void): [T, (value: T | ((prevState: T) => T), ...args: any[]) => void];
+`)
 
-test('function parameter', () => {
-  transformAndMatchSnapshot(`
-  export function fn(cb: () => void): void;
-  `)
-})
+test('function parameter', macro, `
+export function fn(cb: () => void): void;
+`)
 
-test('already parenthesized function parameter', () => {
-  transformAndMatchSnapshot(`
-  export function fn(cb: (() => void)): void;
-  `)
-})
+test('already parenthesized function parameter', macro, `
+export function fn(cb: (() => void)): void;
+`)
 
-test('already includes undefined', () => {
-  transformAndMatchSnapshot(`
-  export function fn(a: string | undefined): void;
-  `)
-})
+test('already includes undefined', macro, `
+export function fn(a: string | undefined): void;
+`) */
 
-test('already optional', () => {
-  transformAndMatchSnapshot(`
-  export function fn(a?: string): void;
-  `)
-})
+/* test('already optional', macro, `
+export function fn(a?: string): void;
+`) */
 
-test('interface', () => transformAndMatchSnapshot(`
+test('interface', macro, `
 export interface Person {
   name: string
 }
-`))
+`);
+
+test('interface param', macro, `
+interface Person {
+  name: string
+}
+export function fn(a: Person): void;
+`)
