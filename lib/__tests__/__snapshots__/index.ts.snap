@@ -4,6 +4,12 @@ exports[`already includes undefined 1`] = `"export function fn(a: string | undef
 
 exports[`already optional 1`] = `"export function fn(a?: string): void;"`;
 
+exports[`already optional interface 1`] = `
+"export interface Person {
+  name?: string;
+}"
+`;
+
 exports[`already parenthesized function parameter 1`] = `"export function fn(cb: (() => void) | undefined): void;"`;
 
 exports[`export default directly 1`] = `"export default ((a: string | undefined): string => a);"`;
@@ -30,6 +36,20 @@ exports[`interface 1`] = `
 "export interface Person {
   name?: string;
 }"
+`;
+
+exports[`interface param 1`] = `
+"interface Person {
+  name: string | undefined;
+}
+export function fn(a: Person | undefined): void;"
+`;
+
+exports[`interface union param 1`] = `
+"interface Person {
+  name: string | undefined;
+}
+export function fn(a: Person | string | undefined): void;"
 `;
 
 exports[`useControlledState 1`] = `"export function useControlledState<T>(value: T | undefined, defaultValue: T | undefined, onChange: ((value: T, ...args: any[]) => void) | undefined): [T, (value: T | ((prevState: T) => T), ...args: any[]) => void];"`;
