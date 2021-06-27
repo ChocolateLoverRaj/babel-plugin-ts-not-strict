@@ -1,0 +1,12 @@
+{
+  "export default with const": "const fn = (a: string | undefined): string => a;\n\nexport default fn;",
+  "export default directly": "export default ((a: string | undefined): string => a);",
+  "export named": "export const fn = (a: string | undefined): string => a;",
+  "function": "export default function add(a: number | undefined): number {\n  return a;\n}",
+  "function dts": "export function a(n: number | undefined): number;",
+  "function parameter": "export function fn(cb: (() => void) | undefined): void;",
+  "already parenthesized function parameter": "export function fn(cb: (() => void) | undefined): void;",
+  "already includes undefined": "export function fn(a: string | undefined): void;",
+  "already optional": "export function fn(a?: string): void;",
+  "interface": "export interface Person {\n  name?: string;\n}"
+}

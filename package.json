@@ -19,14 +19,20 @@
   "devDependencies": {
     "@babel/plugin-syntax-typescript": "^7.14.5",
     "@types/jest": "^26.0.23",
+    "@types/jsonfile": "^6.0.0",
     "@typescript-eslint/eslint-plugin": ">=4.0.1",
+    "commander": "^8.0.0",
     "eslint": ">=7.12.1",
     "eslint-config-standard-with-typescript": "^20.0.0",
     "eslint-plugin-import": ">=2.22.1",
     "eslint-plugin-node": ">=11.1.0",
     "eslint-plugin-promise": ">=4.2.1",
     "jest": "^27.0.4",
+    "jsonfile": "^6.1.0",
+    "mocha": "^9.0.1",
+    "snap-shot": "^2.17.0",
     "ts-jest": "^27.0.3",
+    "ts-node": "^10.0.0",
     "typescript": "^4.3.3"
   },
   "dependencies": {

@@ -2,17 +2,18 @@ import plugin from '../'
 import { transformSync } from '@babel/core'
 import pluginSyntaxTypescript from '@babel/plugin-syntax-typescript'
 import never from 'never'
+import snapshot from 'snap-shot'
 
 const transformAndMatchSnapshot = (input: string): void => {
   const { code } = transformSync(input, {
     plugins: [pluginSyntaxTypescript, plugin]
   }) ?? never('No result')
-  expect(code).toMatchSnapshot()
+  snapshot(code)
 }
 
 const arrowFn = '(a: string): string => a;'
 
-test('export default with const', () => {
+it('export default with const', () => {
   transformAndMatchSnapshot(`
   const fn = ${arrowFn}
 
@@ -20,19 +21,19 @@ test('export default with const', () => {
   `)
 })
 
-test('export default directly', () => {
+it('export default directly', () => {
   transformAndMatchSnapshot(`
   export default ${arrowFn}
   `)
 })
 
-test('export named', () => {
+it('export named', () => {
   transformAndMatchSnapshot(`
   export const fn = ${arrowFn}
   `)
 })
 
-test('function', () => {
+it('function', () => {
   transformAndMatchSnapshot(`
   export default function add(a: number): number {
     return a
@@ -40,44 +41,44 @@ test('function', () => {
   `)
 })
 
-test('function dts', () => {
+it('function dts', () => {
   transformAndMatchSnapshot(`
   export function a(n: number): number;
   `)
 })
 
-test('useControlledState', () => {
+it('useControlledState', () => {
   transformAndMatchSnapshot(`
   export function useControlledState<T>(value: T, defaultValue: T, onChange: ` + `
   (value: T, ...args: any[]) => void): [T, (value: T | ((prevState: T) => T), ...args: any[]) => void];
   `)
 })
 
-test('function parameter', () => {
+it('function parameter', () => {
   transformAndMatchSnapshot(`
   export function fn(cb: () => void): void;
   `)
 })
 
-test('already parenthesized function parameter', () => {
+it('already parenthesized function parameter', () => {
   transformAndMatchSnapshot(`
   export function fn(cb: (() => void)): void;
   `)
 })
 
-test('already includes undefined', () => {
+it('already includes undefined', () => {
   transformAndMatchSnapshot(`
   export function fn(a: string | undefined): void;
   `)
 })
 
-test('already optional', () => {
+it('already optional', () => {
   transformAndMatchSnapshot(`
   export function fn(a?: string): void;
   `)
 })
 
-test('interface', () => transformAndMatchSnapshot(`
+it('interface', () => transformAndMatchSnapshot(`
 export interface Person {
   name: string
 }

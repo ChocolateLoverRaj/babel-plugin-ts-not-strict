@@ -8,10 +8,10 @@
     "module": "CommonJS",
     "declaration": true,
     "moduleResolution": "node",
-    "target": "ES2016"
+    "target": "ES2016",
+    "strictBindCallApply": true
   },
   "exclude": [
-    "**/__tests__",
     "./dist"
   ]
 }
